@@ -1,0 +1,40 @@
+# .github/workflows/test-s3.yml
+
+# This is a basic workflow to help you get started with Actions
+name: Connect to an AWS role from a GitHub repository
+
+# Controls when the action will run. Invokes the workflow on push events but only for the main branch
+on:
+  # push:
+  #  branches: [ main ]
+  workflow_dispatch:    # Permite ejecución manual del pipeline
+
+env:
+  AWS_REGION : "us-east-1"
+
+# Permission can be added at job level or workflow level    
+permissions:
+  id-token: write # Requerido para OIDC authentication
+  contents: read  # Requerido para checkout del código desde el repo
+
+jobs:
+  AssumeRoleAndCallIdentity:
+    runs-on: ubuntu-latest
+    steps:
+      - name:  Git clone the repository (Checkout code)
+        uses: actions/checkout@v5
+
+      # OIDC Authentication - No more access keys!
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v5.1.1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}   # Referencia al secreto
+          aws-region: ${{ env.AWS_REGION }}             # Región de AWS
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+
+      # Hello from AWS: WhoAmI
+      # Commands that require AWS credentials
+      - name: AWS Commands
+        run: |
+          aws sts get-caller-identity
+          aws s3 ls
