@@ -65,10 +65,9 @@ Se crea un artefacto binario (tfplan) que representa exactamente qué recursos s
 4. Ejecución Controlada (Apply)
 Solo cuando todas las capas de seguridad anteriores han devuelto una señal de "éxito", se procede a la creación de recursos.
     - Acción: 
-```bash
-terraform apply "tfplan"
-```
-
+        ```bash
+        terraform apply "tfplan"
+        ```
     - **Verificación Post-Despliegue:** (Opcional) Escaneo del entorno en tiempo real para confirmar que la postura de seguridad se mantiene.
 
 > [!NOTE]
