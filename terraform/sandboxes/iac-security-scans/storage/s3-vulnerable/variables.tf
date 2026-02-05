@@ -26,7 +26,7 @@ variable "project_name" {
 variable "tags" {
   description = "Etiquetas comunes para todos los recursos (Tags de seguimiento)."
   type        = map(string)
-  default     = {
+  default = {
     ManagedBy = "Terraform"
     Owner     = "CloudAutomationTeam"
   }

@@ -6,7 +6,7 @@ locals {
 
 module "s3_bucket" {
   source      = "../../../../modules/storage/s3-vulnerable"
-  bucket_name = "${local.bucket_name}"
+  bucket_name = local.bucket_name
 }
 
 # ---
