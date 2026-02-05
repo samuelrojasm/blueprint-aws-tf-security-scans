@@ -45,30 +45,30 @@ Para garantizar la integridad de la infraestructura en AWS, cada cambio sigue un
 ### El flujo se divide en cuatro etapas principales:
 1. Inicialización y Selección de Entorno
 Se prepara el espacio de trabajo y se define el entorno mediante variables de entorno. En este laboratorio, priorizamos el aislamiento total.
-- Acción:
+    - Acción:
 ```bash
 terraform init
 ```
 2. Análisis Estático de Código (SAST)
 Antes de generar cualquier plan, las herramientas de escaneo (Checkov y Tfsec) analizan los archivos .tf.
-- **Objetivo:** Detectar errores de sintaxis, secretos expuestos o configuraciones inseguras "por diseño".
-- **Resultado:** Si se detecta una vulnerabilidad crítica, el proceso se detiene automáticamente (Fail-Fast).
+    - **Objetivo:** Detectar errores de sintaxis, secretos expuestos o configuraciones inseguras "por diseño".
+    - **Resultado:** Si se detecta una vulnerabilidad crítica, el proceso se detiene automáticamente (Fail-Fast).
 
 3. Generación y Validación del Plan (Pre-Apply)
 Se crea un artefacto binario (tfplan) que representa exactamente qué recursos se crearán o modificarán en AWS.
-- Acción:
+    - Acción:
 ```bash
 terraform plan -out=tfplan
 ```
-- **Validación:** Se utiliza Terraform Compliance o OPA para interrogar al plan. Aquí es donde el análisis basado en grafos confirma que las relaciones entre recursos (ej. VPC -> Security Group -> EC2) son seguras.
+    - **Validación:** Se utiliza Terraform Compliance o OPA para interrogar al plan. Aquí es donde el análisis basado en grafos confirma que las relaciones entre recursos (ej. VPC -> Security Group -> EC2) son seguras.
 
 4. Ejecución Controlada (Apply)
 Solo cuando todas las capas de seguridad anteriores han devuelto una señal de "éxito", se procede a la creación de recursos.
-- Acción: 
+    - Acción: 
 ```bash
 terraform apply "tfplan"
 ```
-- **Verificación Post-Despliegue:** (Opcional) Escaneo del entorno en tiempo real para confirmar que la postura de seguridad se mantiene.
+    - **Verificación Post-Despliegue:** (Opcional) Escaneo del entorno en tiempo real para confirmar que la postura de seguridad se mantiene.
 
 [NOTE!]
 > Este flujo implementa el concepto de Guardrails de Seguridad. En lugar de corregir errores después de que la infraestructura existe, este repositorio obliga a que la seguridad sea un requisito para el despliegue.
