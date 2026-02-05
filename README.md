@@ -16,7 +16,7 @@
 
 ---
 
-## 🛡️ Escenarios de Seguridad y Alcance
+## 🛡️ Escenarios de seguridad y alcance
 El pipeline de validación inspecciona el código buscando mitigar los siguientes riesgos comunes en infraestructuras AWS:
 - **Exposición de Datos:** Verificación de buckets S3 con acceso público, falta de cifrado (SSE) o ausencia de políticas de bloqueo de acceso público.
 - **Gestión de Identidades (IAM):** Identificación de roles con privilegios excesivos (AdminAccess), uso de comodines (*) en políticas y falta de rotación de credenciales.
@@ -25,21 +25,52 @@ El pipeline de validación inspecciona el código buscando mitigar los siguiente
 
 ---
 
-## 🛠️ Herramientas de Inspección (Stack Tecnológico)
+## 🛠️ Herramientas de inspección (Stack Tecnológico)
 Para automatizar la detección de los riesgos anteriores, este repositorio utiliza un enfoque de defensa en capas dividido en dos fases:
 
-### 1. Análisis Estático (Static Analysis)
+### 1. Análisis estático (Static Analysis)
 Estas herramientas analizan el código fuente (.tf) sin necesidad de interactuar con AWS o generar un plan.
 - **Checkov:** Framework de seguridad basado en políticas que escanea configuraciones en busca de fallos de seguridad y cumplimiento.
 - **Tfsec:** Escáner de seguridad estático especializado en Terraform que utiliza un análisis basado en grafos para encontrar vulnerabilidades.
 
-## 2. Análisis Dinámico del Plan (Plan Validation)
+### 2. Análisis Dinámico del Plan (Plan Validation)
 En esta fase se analiza el archivo binario generado por terraform plan para evaluar el impacto real de los cambios.
 - **Terraform Compliance:** Herramienta que permite definir reglas de cumplimiento en lenguaje natural (Gherkin) para validar el estado deseado.
 - **OPA (Open Policy Agent) / Rego:** (Opcional/Avanzado) Implementación de Policy-as-Code para definir guardrails personalizados antes del apply.
 
 ---
 
+## 🔄 Ciclo de Vida de una Prueba (Workflow)
+Para garantizar la integridad de la infraestructura en AWS, cada cambio sigue un ciclo de vida de validación estricto. Este proceso asegura que ninguna configuración vulnerable llegue a ser desplegada, incluso en nuestro entorno de pruebas.
+### El flujo se divide en cuatro etapas principales:
+1. Inicialización y Selección de Entorno
+Se prepara el espacio de trabajo y se define el entorno mediante variables de entorno. En este laboratorio, priorizamos el aislamiento total.
+- Acción:
+```bash
+terraform init
+```
+2. Análisis Estático de Código (SAST)
+Antes de generar cualquier plan, las herramientas de escaneo (Checkov y Tfsec) analizan los archivos .tf.
+- **Objetivo:** Detectar errores de sintaxis, secretos expuestos o configuraciones inseguras "por diseño".
+- **Resultado:** Si se detecta una vulnerabilidad crítica, el proceso se detiene automáticamente (Fail-Fast).
 
+3. Generación y Validación del Plan (Pre-Apply)
+Se crea un artefacto binario (tfplan) que representa exactamente qué recursos se crearán o modificarán en AWS.
+- Acción:
+```bash
+terraform plan -out=tfplan
+```
+- **Validación:** Se utiliza Terraform Compliance o OPA para interrogar al plan. Aquí es donde el análisis basado en grafos confirma que las relaciones entre recursos (ej. VPC -> Security Group -> EC2) son seguras.
+
+4. Ejecución Controlada (Apply)
+Solo cuando todas las capas de seguridad anteriores han devuelto una señal de "éxito", se procede a la creación de recursos.
+- Acción: 
+```bash
+terraform apply "tfplan"
+```
+- **Verificación Post-Despliegue:** (Opcional) Escaneo del entorno en tiempo real para confirmar que la postura de seguridad se mantiene.
+
+[NOTE!]
+> Este flujo implementa el concepto de Guardrails de Seguridad. En lugar de corregir errores después de que la infraestructura existe, este repositorio obliga a que la seguridad sea un requisito para el despliegue.
 
 ---
