@@ -5,6 +5,8 @@
 # ----------------------------------------------------------------
 include makefiles/config.mk
 include makefiles/git.mk
+include makefiles/aws.mk
+include makefiles/tf-s3.mk
 
 # Cargar el archivo .env si existe
 # Exporta todas las variables del .env al entorno de los comandos
@@ -37,6 +39,10 @@ help:
 	@echo ""
 	@echo "$(YELLOW)Terraform-Bucket:$(RESET)"
 	@echo "  tf-s3-init            Inicializa Terraform S3"
+	@echo "  tf-s3-plan            Plan Terraform S3"
+	@echo "  tf-s3-apply           Apply Terraform S3"
+	@echo "  tf-s3-destroy         Destroy Terraform S3"
+	@echo "  tf-s3-state-list      State Terraform S3"
 	@echo ""
 
 # ---
