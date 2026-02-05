@@ -46,9 +46,9 @@ Para garantizar la integridad de la infraestructura en AWS, cada cambio sigue un
 1. Inicialización y Selección de Entorno
 Se prepara el espacio de trabajo y se define el entorno mediante variables de entorno. En este laboratorio, priorizamos el aislamiento total.
     - Acción:
-```bash
-terraform init
-```
+        ```bash
+        terraform init
+        ```
 2. Análisis Estático de Código (SAST)
 Antes de generar cualquier plan, las herramientas de escaneo (Checkov y Tfsec) analizan los archivos .tf.
     - **Objetivo:** Detectar errores de sintaxis, secretos expuestos o configuraciones inseguras "por diseño".
@@ -57,9 +57,9 @@ Antes de generar cualquier plan, las herramientas de escaneo (Checkov y Tfsec) a
 3. Generación y Validación del Plan (Pre-Apply)
 Se crea un artefacto binario (tfplan) que representa exactamente qué recursos se crearán o modificarán en AWS.
     - Acción:
-```bash
-terraform plan -out=tfplan
-```
+        ```bash
+        terraform plan -out=tfplan
+        ```
     - **Validación:** Se utiliza Terraform Compliance o OPA para interrogar al plan. Aquí es donde el análisis basado en grafos confirma que las relaciones entre recursos (ej. VPC -> Security Group -> EC2) son seguras.
 
 4. Ejecución Controlada (Apply)
@@ -71,7 +71,7 @@ terraform apply "tfplan"
 
     - **Verificación Post-Despliegue:** (Opcional) Escaneo del entorno en tiempo real para confirmar que la postura de seguridad se mantiene.
 
-[NOTE!]
+> [!NOTE]
 > Este flujo implementa el concepto de Guardrails de Seguridad. En lugar de corregir errores después de que la infraestructura existe, este repositorio obliga a que la seguridad sea un requisito para el despliegue.
 
 ---
