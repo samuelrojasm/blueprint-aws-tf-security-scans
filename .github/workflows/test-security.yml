@@ -27,6 +27,7 @@ env:
 permissions:
   id-token: write # Requerido para OIDC authentication
   contents: read  # Requerido para checkout del código desde el repo
+  security-events: write
 
 jobs:
   SecurityScan_and_Deploy:
@@ -48,7 +49,7 @@ jobs:
 
         - name: Upload SARIF results to Security tab
           # Esta es la acción de GitHub que "lee" el archivo .sarif
-          uses: github/codeql-action/upload-sarif@v3
+          uses: github/codeql-action/upload-sarif@v4
           if: always() # Sube el reporte incluso si el escaneo falló
           with:
             sarif_file: results.sarif
