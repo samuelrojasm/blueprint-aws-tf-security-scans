@@ -7,8 +7,20 @@ name: Connect to an AWS role from a GitHub repository
 on:
   # push:
   #  branches: [ main ]
+  #  paths:
+  #    - 'nombre-del-directorio/**'
+  # pull_request:
+  #  paths:
+  #   - 'nombre-del-directorio/**'
   workflow_dispatch:    # Permite ejecución manual del pipeline
-
+  workflow_dispatch:
+    inputs:
+      folder:
+        description: 'Selecciona la carpeta a desplegar'
+        type: choice
+        options:
+          - terraform/samdboxes/iac-security-scans/storage/s3-vulnerable
+          - terraform/modules/storage/s3-vulnerable
 env:
   AWS_REGION : "us-east-1"
 
