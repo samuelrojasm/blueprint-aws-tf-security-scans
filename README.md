@@ -68,6 +68,7 @@ Solo cuando todas las capas de seguridad anteriores han devuelto una señal de "
 ```bash
 terraform apply "tfplan"
 ```
+
     - **Verificación Post-Despliegue:** (Opcional) Escaneo del entorno en tiempo real para confirmar que la postura de seguridad se mantiene.
 
 [NOTE!]
