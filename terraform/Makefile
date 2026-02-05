@@ -30,5 +30,13 @@ help:
 	@echo "  git-s3-deploy          Git add, commit, push de root S3"
 	@echo "  git-s3-module-deploy   Git add, commit, push del módulo S3"
 	@echo ""
+	@echo "$(YELLOW)AWS:$(RESET)"
+	@echo "  login-aws             Inicia sesión en AWS SSO"
+	@echo "  check-auth            Verifica el estado de la sesión de AWS"
+	@echo "  list-buckets          Listar buckets S3"
+	@echo ""
+	@echo "$(YELLOW)Terraform-Bucket:$(RESET)"
+	@echo "  tf-s3-init            Inicializa Terraform S3"
+	@echo ""
 
 # ---
