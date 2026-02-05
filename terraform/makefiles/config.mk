@@ -58,10 +58,10 @@ DOCKER_TF = docker run --rm \
     --user $(shell id -u):$(shell id -g) \
     --volume $(CURDIR):/src \
 	--env HOME=/tmp \
-	--env TF_VAR_aws_region=$(REGION) \
+	--env TF_VAR_aws_region=$(AWS_REGION) \
     --env TF_VAR_bucket_name=$(NAME_STATE_BUCKET) \
 	--env AWS_PROFILE=$(AWS_PROFILE) \
-    --env AWS_DEFAULT_REGION=$(REGION) \
+    --env AWS_DEFAULT_REGION=$(AWS_REGION) \
     --env TF_IN_AUTOMATION=true \
     --env TF_PLUGIN_CACHE_DIR=/tmp/.terraform.d/plugin-cache \
     --volume $(HOME)/.aws:/tmp/.aws:ro \
