@@ -1,7 +1,7 @@
 # storage/main.tf
 
 locals {
-  bucket_name = "$(var.project_name)-$(var.env)-$(var.aws_region)-tf-data-sensible"
+  bucket_name = "${var.project_name}-${var.env}-${var.aws_region}-tf-data-sensible"
 
   common_tags = {
     Env       = var.env
@@ -15,7 +15,7 @@ terraform {
   backend "s3" {
     bucket         = "iac-security-scans-sandbox-us-east-1-terraform-tfstate"
     key            = "s3-vulnerable/terraform.tfstate"
-    region         = var.aws_region
+    region         = "us-east-1"
     encrypt        = true
   }
 }
