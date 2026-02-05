@@ -21,10 +21,12 @@ GIT_BRANCH ?= main
 GIT_MSG ?= "init: Initial commit"
 GIT_FILE ?= README.md
 
-TF_VERSION   ?= 1.14.0
+TF_VERSION ?= 1.14.0
 AWS_CLI_VERSION ?= 2.33.14
 
 AWS_PROFILE ?= tf
+
+AWS_REGION ?= us-east-1
 
 #-----------------------------
 # Definición de uso de Docker
