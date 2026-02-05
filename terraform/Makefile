@@ -24,11 +24,11 @@ RED    := \033[0;31m
 RESET  := \033[0m
 
 help:
-	@echo "Uso: make [comando]"
+	@echo "$(CYAN)Uso: make [comando]$(RESET)"
 	@echo ""
-	@echo "Git:"
+	@echo "$(YELLOW)Git:$(RESET)"
 	@echo "  git-s3-deploy          Git add, commit, push de root S3"
-	@echo "  git-s3-module-deploy.  Git add, commit, push del módulo S3"
+	@echo "  git-s3-module-deploy   Git add, commit, push del módulo S3"
 	@echo ""
 
 # ---
