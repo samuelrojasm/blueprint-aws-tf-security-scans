@@ -17,9 +17,12 @@ resource "aws_s3_bucket" "vulnerable_bucket" {
     prevent_destroy = false   # Entornos de test o Sandbox que son emíferos
   }
 
-  tags = {
-    Name        = "Terraform Bucket"
-  }
+  tags = merge(
+    var.tags,
+    {
+        Name        = "Terraform Bucket Vulnerable"
+    }
+  )
 }
 
 resource "aws_s3_bucket_public_access_block" "bad_config" {
