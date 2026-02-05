@@ -24,13 +24,7 @@ jobs:
       - name:  Git clone the repository (Checkout code)
         uses: actions/checkout@v5
 
-      # OIDC Authentication - No more access keys!
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v5.1.1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}   # Referencia al secreto
-          aws-region: ${{ env.AWS_REGION }}             # Región de AWS
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+      
 
       # Hello from AWS: WhoAmI
       # Commands that require AWS credentials
