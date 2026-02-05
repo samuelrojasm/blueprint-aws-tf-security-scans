@@ -23,15 +23,5 @@ variable "project_name" {
   default     = "secure-iac-lab"
 }
 
-variable "tags" {
-  description = "Etiquetas comunes para todos los recursos (Tags de seguimiento)."
-  type        = map(string)
-  default = {
-    Env       = var.env
-    ManagedBy = "Terraform"
-    Project   = var.project_name
-    Owner     = "CloudAutomationTeam"
-  }
-}
 
 # ---
