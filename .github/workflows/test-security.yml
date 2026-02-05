@@ -1,0 +1,56 @@
+# .github/workflows/test-s3.yml
+
+# This is a basic workflow to help you get started with Actions
+name: Scan de Seguridad en los archivos de IaC
+
+# Controls when the action will run. Invokes the workflow on push events but only for the main branch
+on:
+  # push:
+  #  branches: [ main ]
+  #  paths:
+  #    - 'nombre-del-directorio/**'
+  # pull_request:
+  #  paths:
+  #   - 'nombre-del-directorio/**'
+  workflow_dispatch:    # Permite ejecución manual del pipeline
+    inputs:
+      scan_directory:
+        description: 'Selecciona la carpeta para scaneo de Seguridad'
+        type: choice
+        options:
+          - terraform/sandboxes/iac-security-scans/storage/s3-vulnerable
+          - terraform/modules/storage/s3-vulnerable
+env:
+  AWS_REGION : "us-east-1"
+
+# Permission can be added at job level or workflow level    
+permissions:
+  id-token: write # Requerido para OIDC authentication
+  contents: read  # Requerido para checkout del código desde el repo
+
+jobs:
+  SecurityScan_and_Deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git clone the repository
+          uses: actions/checkout@v5
+        # --- PASO DE SEGURIDAD CON CHECKOV ---
+        - name: Run Checkov Security Scan
+          uses: bridgecrewio/checkov-action@master
+          with:
+            # Usa el input definido arriba
+            directory: ${{ github.event.inputs.scan_directory }}
+            framework: terraform  # all -> Escanea Terraform CloudFormation, Kubernetes, etc.
+            # Generamos ambos formatos:
+            output_format: cli,sarif 
+            output_file_path: console,results.sarif
+            soft_fail: true # Permite que el reporte se suba aunque haya fallos
+
+        - name: Upload SARIF results to Security tab
+          # Esta es la acción de GitHub que "lee" el archivo .sarif
+          uses: github/codeql-action/upload-sarif@v3
+          if: always() # Sube el reporte incluso si el escaneo falló
+          with:
+            sarif_file: results.sarif
+            category: checkov
+            
