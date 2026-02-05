@@ -73,4 +73,10 @@ Solo cuando todas las capas de seguridad anteriores han devuelto una señal de "
 > [!NOTE]
 > Este flujo implementa el concepto de Guardrails de Seguridad. En lugar de corregir errores después de que la infraestructura existe, este repositorio obliga a que la seguridad sea un requisito para el despliegue.
 
+🚀 Guía de Ejecución Rápida
+Pasos para validar y desplegar la infraestructura de forma segura
+
+1. Preparación del Entorno
+Configura tu variable de entorno y prepara el backend de Terraform:
+
 ---
