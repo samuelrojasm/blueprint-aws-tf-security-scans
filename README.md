@@ -79,8 +79,8 @@ Para automatizar la detección de riesgos, existe un enfoque de defensa en profu
     - **OPA (Open Policy Agent) / Rego:** (Opcional/Avanzado) Implementación de Policy-as-Code para definir guardrails personalizados antes del apply.
 
 > [!NOTE]
-> - Para efectos de este proyecto, nos enfocaremos en la `Fase 1 (Análisis Estático)` utilizando **`Checkov`** integrado en el pipeline de **GitHub Actions**. 
-> - La Fase 1 es **"Shift Left Security"** (Seguridad temprana) y la Fase 2 es **"Pre-deployment"**.<br>
+> * *La Fase 1 es* *`"Shift Left Security`"* *(Seguridad temprana) y la Fase 2 es* *`"Pre-deployment"`*.
+> * *Para efectos de este proyecto, nos enfocaremos en la* *`Fase 1 (Análisis Estático)`* *utilizando* *`Checkov`* *integrado en el pipeline de* *`GitHub Actions`*.<br>
 
 ---
 
@@ -93,7 +93,7 @@ Este ejercicio se centra en la ejecución de análisis estático mediante **Chec
 |Checkov	    | Escáner SAST para IaC	            | Herramienta de análisis estático que evalúa las configuraciones de Terraform frente a cientos de políticas de seguridad y cumplimiento (Best Practices) |
 |GitHub Actions | Orquestación de CI/CD	            | Plataforma de automatización que ejecuta el pipeline de seguridad de forma consistente ante cada cambio en el código |
 |Formato SARIF  | Intercambio de Resultados         | Estándar basado en JSON utilizado para integrar los hallazgos de Checkov directamente en la interfaz visual de GitHub Security Annotations|
-|Make / Makefile| Automatización de Comandos        | Utilidad que estandariza la ejecución de los escaneos, permitiendo lanzarlos con comandos simples como make scan-s3|
+|Make / Makefile| Automatización de Comandos        | Scripts de automatización en sistemas Linux/Unix que estandariza la ejecución de los escaneos, permitiendo lanzarlos con comandos simples como make scan-s3|
 
 ### ¿Por qué este Stack?
 - **Prevención "Shift Left Security":** La combinación de **`Checkov`** con **`GitHub Actions`** permite detectar errores en las fases iniciales del desarrollo del código de la infraestructura (IaC).<br>, mucho antes de que la infraestructura se despliegue en AWS.
@@ -137,7 +137,7 @@ Este ejercicio se centra en la ejecución de análisis estático mediante **Chec
 * Para los fines de esta guía y proyecto de demostración, utilizaremos el **`Flujo de verificación de vulnerabilidades en GitHub Actions de ejecución manual`**.<br>
 
 > [!NOTE]
-> "El uso de **`Makefiles`** permite que los mismos **`Guardrails (controles de seguridad preventivos)`** ejecutados en el pipeline de **`GitHub Actions`** puedan ser validados localmente por el **`Cloud Engineer`** con un simple comando (ej. make scan), garantizando consistencia."
+> *"El uso de **`Makefiles`** permite que los mismos **`Guardrails (controles de seguridad preventivos)`** ejecutados en el pipeline de **`GitHub Actions`** puedan ser validados localmente por el **`Cloud Engineer`** con un simple comando (ej. make scan), garantizando consistencia."*
 
 ### Flujo de verificación de vulnerabilidades manual en **`GitHub Actions`** <a name="local-06-01"></a>
 * El flujo de verificación manual permite a los equipos de plataforma y seguridad ejecutar **`guardrails (controles de seguridad preventivos)`** de manera independiente y bajo demanda. 
@@ -147,7 +147,7 @@ Este ejercicio se centra en la ejecución de análisis estático mediante **Chec
     * **Consistencia técnica:** Al invocar los comandos mediante un **`Makefile (herramienta estándar de automatización en Linux)`**, garantizamos que el análisis en la nube sea idéntico al que realizaría un **`Cloud Engineer`** en su terminal local.
     * **Gobernanza:** Proporcionar un mecanismo de control que no depende de un cambio en el código **`(Push/PR)`** para generar un reporte de estado.
 
-1. **Generación de código inseguro:** Se incluyen recursos de AWS con fallos de seguridad deliberados para validar la detección de [Checkov](https://www.checkov.io) y la generación de reportes.
+1. **Generación de código inseguro:** Se incluyen recursos de AWS con fallos de seguridad deliberados para validar la detección de **`Checkov`** y la generación de reportes.
 
     ```bash
     # Directorios con recursos vulnerables
@@ -370,14 +370,14 @@ Esta fase nos sirve para validar la configuración de seguridad de GitHub Identi
     </p>
 
 ### 4. ¿Cómo interpretar el reporte de seguridad?  <a name="local-08-04"></a>
-Cuando el pipeline falla debido a una vulnerabilidad detectada por **`Checkov`**, verás un resumen en la consola de **`GitHub Actions`** o en el  Security Summary del repositorio. Cada hallazgo incluye:<br>
-- **Check ID:** Un código único (ej. CKV_AWS_20) que identifica la política incumplida.
-- **Result:** Indica si el recurso PASSED (aprobado) o FAILED (fallido).
-- **Resource:** El nombre exacto del recurso de Terraform afectado (ej. `aws_s3_bucket.vulnerable_bucket`).
-- **File & Lines:** La ruta del archivo y el rango de líneas donde se localiza el error.
-- **Guide:** Un enlace directo a la documentación oficial con la solución recomendada.<br>
+* Cuando el pipeline falla debido a una vulnerabilidad detectada por **`Checkov`**, verás un resumen en la consola de **`GitHub Actions`** o en el  Security Summary del repositorio. Cada hallazgo incluye:<br>
+    - **Check ID:** Un código único (ej. CKV_AWS_20) que identifica la política incumplida.
+    - **Result:** Indica si el recurso PASSED (aprobado) o FAILED (fallido).
+    - **Resource:** El nombre exacto del recurso de Terraform afectado (ej. `aws_s3_bucket.vulnerable_bucket`).
+    - **File & Lines:** La ruta del archivo y el rango de líneas donde se localiza el error.
+    - **Guide:** Un enlace directo a la documentación oficial con la solución recomendada.<br>
 
-Ejemplo de salida en consola:
+- Ejemplo de salida en consola:
 
     ```bash
     Check: CKV_AWS_20: "Ensure S3 bucket has versioning enabled"
@@ -385,14 +385,15 @@ Ejemplo de salida en consola:
         File: /terraform/modules/storage/s3-vulnerable/main.tf:10-25
         Guide: https://docs.bridgecrew.io
     ```
+
 ### 5. Manejo de fallos en el Pipeline <a name="local-08-05"></a>
 De manera predeterminada, si **`Checkov`** encuentra una vulnerabilidad de severidad alta, el pipeline devolverá un **exit code 1**, lo que detendrá el despliegue para evitar riesgos en producción.
 - **Soft Fail:** Si necesitas que el pipeline continúe a pesar de los errores (por ejemplo, en una fase de pruebas inicial), puedes configurar el flag --soft-fail en el comando o en el **`Checkov`** GitHub Action.
 - **Visualización SARIF:** Los resultados también se cargan en la pestaña Security > Code scanning de GitHub si el pipeline genera un archivo **`SARIF`**, permitiendo gestionar las alertas como si fueran "issues". 
 
 > [!NOTE]
-> - **`Se ha configurado soft_fail: true`** para permitir que el pipeline finalice con éxito incluso si **`encuentra vulnerabilidades`**.
-> - Esto facilita la visualización completa de los reportes y el **archivo SARIF** en este ejercicio demostrativo sin interrumpir el flujo de GitHub Actions.<br>
+> - *`Se ha configurado soft_fail: true`* *para permitir que el pipeline finalice con éxito incluso si* *`encuentra vulnerabilidades`*.
+> - *Esto facilita la visualización completa de los reportes y el* *`archivo SARIF`* *en este ejercicio demostrativo sin interrumpir el flujo de GitHub Actions*.<br>
 
 ---
 
@@ -415,12 +416,12 @@ De manera predeterminada, si **`Checkov`** encuentra una vulnerabilidad de sever
             }
         }
         ```
+
 - Puntos clave:
     - **Justificación obligatoria:** Siempre incluye una descripción después de los dos puntos `(:)` para explicar por qué se omite la regla. Esto facilita las auditorías futuras.
     - **Alcance:** El comentario solo afecta al recurso donde se coloca.
     - **Múltiples reglas:** Puedes añadir varias líneas de `skip` si necesitas ignorar más de una política en el mismo recurso.
     - **Seguridad:** Úsalo con precaución; omitir reglas en producción sin una revisión previa puede exponer tu infraestructura
-
 
 ---
 
@@ -445,11 +446,11 @@ Una vez identificadas las vulnerabilidades en los reportes de **Checkov**, el si
 ---
 
 ## ⚡ Conclusiones <a name="local-10"></a>
-La implementación de un análisis de seguridad automatizado sobre Infraestructura como Código (IaC) transforma la seguridad de un proceso reactivo a uno proactivo y preventivo.<br>
-* **Eficacia del "Shift Left":** Se demostró que es posible identificar configuraciones críticas (como exposición de S3 o reglas de red permisivas) antes de que representen un riesgo real en la nube de AWS.
-* **Visibilidad e Integración:** La integración de herramientas como Checkov con GitHub Actions y el formato SARIF elimina la fricción entre los equipos de Seguridad y DevOps, proporcionando feedback inmediato y visual dentro del flujo de trabajo habitual.
-* **Escalabilidad y Consistencia:** El uso de un Makefile y una estructura modular garantiza que las pruebas de seguridad sean consistentes, repetibles y fáciles de escalar a medida que la infraestructura crece.
-* **Reducción del Error Humano:** Automatizar la validación de políticas permite mantener un estándar de cumplimiento constante, minimizando las brechas de seguridad derivadas de descuidos manuales durante la fase de codificación.
+* La implementación de un análisis de seguridad automatizado sobre Infraestructura como Código (IaC) transforma la seguridad de un proceso reactivo a uno proactivo y preventivo.<br>
+    * **Eficacia del "Shift Left":** Se demostró que es posible identificar configuraciones críticas (como exposición de S3 o reglas de red permisivas) antes de que representen un riesgo real en la nube de AWS.
+    * **Visibilidad e Integración:** La integración de herramientas como Checkov con GitHub Actions y el formato SARIF elimina la fricción entre los equipos de Seguridad y DevOps, proporcionando feedback inmediato y visual dentro del flujo de trabajo habitual.
+    * **Escalabilidad y Consistencia:** El uso de un Makefile y una estructura modular garantiza que las pruebas de seguridad sean consistentes, repetibles y fáciles de escalar a medida que la infraestructura crece.
+    * **Reducción del Error Humano:** Automatizar la validación de políticas permite mantener un estándar de cumplimiento constante, minimizando las brechas de seguridad derivadas de descuidos manuales durante la fase de codificación.
 
 ---
 
