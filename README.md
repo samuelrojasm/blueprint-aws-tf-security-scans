@@ -36,9 +36,11 @@
 
 ## 🎯 Objetivos <a name="local-01"></a>
 * El propósito principal de este proyecto es demostrar la efectividad del Análisis Estático de Vulnerabilidades (SAST) aplicado a la infraestructura, asegurando que los recursos de nube cumplan con los estándares de seguridad antes de su creación.
-* Implementar un pipeline automatizado de seguridad que identifique y reporte configuraciones riesgosas en código de Terraform para AWS, reduciendo la superficie de ataque de la infraestructura.
-    * - **Automatizar el escaneo de seguridad:** Integrar Checkov en GitHub Actions para que cada cambio en la infraestructura sea evaluado de forma autónoma.
-    * **Estandarizar el reporte de hallazgos:** Utilizar el formato `SARIF` para visualizar vulnerabilidades directamente en la interfaz de GitHub, facilitando la lectura para el equipo de **`Cloud Engineer`**.
+
+* Implementar un pipeline automatizado de seguridad que identifique y reporte configuraciones riesgosas en código de Terraform para AWS, reduciendo la superficie de ataque de la infraestructura.<br>
+
+    * **Automatizar el escaneo de seguridad:** Integrar **`Checkov`** en **`GitHub Actions`** para que cada cambio en la infraestructura sea evaluado de forma autónoma.
+    * **Estandarizar el reporte de hallazgos:** Utilizar el formato **`SARIF`** para visualizar vulnerabilidades directamente en la interfaz de GitHub, facilitando la lectura para el equipo de **`Cloud Engineer`**.
     * **Fomentar la cultura "Shift Left Security":** Detectar errores de configuración (como buckets públicos o puertos abiertos) en la fase de codificación, evitando despliegues inseguros en entornos de producción.
 
 ---
