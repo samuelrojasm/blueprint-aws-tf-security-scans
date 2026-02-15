@@ -447,10 +447,10 @@ Una vez identificadas las vulnerabilidades en los reportes de **Checkov**, el si
 
 ## ⚡ Conclusiones <a name="local-10"></a>
 La implementación de un análisis de seguridad automatizado sobre Infraestructura como Código (IaC) transforma la seguridad de un proceso reactivo a uno proactivo y preventivo.<br>
-    * **Eficacia del "Shift Left":** Se demostró que es posible identificar configuraciones críticas (como exposición de S3 o reglas de red permisivas) antes de que representen un riesgo real en la nube de AWS.
-    * **Visibilidad e Integración:** La integración de herramientas como Checkov con GitHub Actions y el formato SARIF elimina la fricción entre los equipos de Seguridad y DevOps, proporcionando feedback inmediato y visual dentro del flujo de trabajo habitual.
-    * **Escalabilidad y Consistencia:** El uso de un Makefile y una estructura modular garantiza que las pruebas de seguridad sean consistentes, repetibles y fáciles de escalar a medida que la infraestructura crece.
-    * **Reducción del Error Humano:** Automatizar la validación de políticas permite mantener un estándar de cumplimiento constante, minimizando las brechas de seguridad derivadas de descuidos manuales durante la fase de codificación.
+* **Eficacia del "Shift Left":** Se demostró que es posible identificar configuraciones críticas (como exposición de S3 o reglas de red permisivas) antes de que representen un riesgo real en la nube de AWS.
+* **Visibilidad e Integración:** La integración de herramientas como `Checkov` con `GitHub Actions` y el formato `SARIF` elimina la fricción entre los equipos de `Seguridad` y `DevOps`, proporcionando feedback inmediato y visual dentro del flujo de trabajo habitual.
+* **Escalabilidad y Consistencia:** El uso de un `Makefile` y una estructura modular garantiza que las pruebas de seguridad sean consistentes, repetibles y fáciles de escalar a medida que la infraestructura crece.
+* **Reducción del Error Humano:** Automatizar la validación de políticas permite mantener un **estándar de cumplimiento constante**, minimizando las brechas de seguridad derivadas de descuidos manuales durante la fase de codificación.
 
 ---
 
