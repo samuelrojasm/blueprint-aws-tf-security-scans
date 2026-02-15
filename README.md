@@ -1,5 +1,4 @@
-# 🔒 Automating IaC security scanning on AWS with Terraform
-## Modelo de referencia: Automatización de seguridad para AWS con Terraform
+# 🔒 Análisis de seguridad automatizado de IaC | AWS + Terraform
 
 [![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?logo=amazon-web-services&logoColor=white)](#)
 [![Terraform](https://img.shields.io/badge/IaC-Terraform-623CE4?logo=terraform&logoColor=white)](#)
