@@ -9,17 +9,28 @@
 
 # Autenticación
 login-aws: ## Inicia sesión en AWS SSO usando el perfil configurado
-	@echo "Iniciando sesión SSO para el perfil $(AWS_PROFILE)..."
-	@echo "Copia el código que aparecerá a continuación en tu navegador..."
+	@echo ""
+	@echo "$(YELLOW)Iniciando sesión SSO para el perfil: $(AWS_PROFILE)...$(RESET)"
+	@echo "----------------------------"
+	@echo "$(CYAN)Copia el código que aparecerá a continuación en tu navegador...$(RESET)"
+	@echo ""
 	@$(DOCKER_AWS_CLI) sso login --profile $(AWS_PROFILE) --no-browser
 
-list-buckets:
-	$(DOCKER_AWS_CLI) s3 ls --profile $(AWS_PROFILE)
+list-buckets: check-auth ## Lista los buckets S3
+	@echo ""
+	@echo "$(YELLOW)Listando buckets S3...$(RESET)"
+	@echo "----------------------------"
+	@$(DOCKER_AWS_CLI) s3 ls --profile $(AWS_PROFILE)
 
-# Target de validación
 check-auth: ## Verifica el estado de la sesión de AWS
-	@echo "Verificando sesión de AWS..."
-	@$(DOCKER_AWS_CLI) sts get-caller-identity --profile $(AWS_PROFILE) > /dev/null || \
-	(echo "Error: La sesión de AWS ha expirado. Ejecuta 'make login-aws'"; exit 1)
+	@echo ""
+	@echo "$(YELLOW)Verificando sesión...$(RESET)"
+	@echo "----------------------------"
+	@if $(DOCKER_AWS_CLI) sts get-caller-identity --profile $(AWS_PROFILE) > /dev/null; then \
+		echo "$(GREEN)✅ Sesión Valida$(RESET)"; \
+	else \
+		(echo "$(RED)❌ Error: La sesión de AWS ha expirado. Ejecuta 'make login-aws'$(RESET)"); \
+		exit 1; \
+	fi
 
 # ---

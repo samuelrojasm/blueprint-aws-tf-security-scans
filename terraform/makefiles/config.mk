@@ -12,6 +12,7 @@
 # Rutas de módulos de Makefile
 #-----------------------------
 S3_VULNERABLE_PATH = sandboxes/iac-security-scans/storage/s3-vulnerable
+SG_VULNERABLE_PATH = sandboxes/iac-security-scans/network/sg-vulnerable
 S3_MODULE_PATH = modules/storage/s3-vulnerable
 
 #-------------------------------------------
